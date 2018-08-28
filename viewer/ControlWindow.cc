@@ -22,7 +22,7 @@ ControlWindow::ControlWindow(const TGWindow *p, int w, int h)
         TGNumberFormat::kNESInteger,
         TGNumberFormat::kNEANonNegative,
         TGNumberFormat::kNELLimitMinMax,
-        0, 8255);
+        0, 15359);
     group_general->AddFrame(channelEntry, new TGLayoutHints(kLHintsTop | kLHintsLeft,  1, 1, 1, 1));
 
     rawWfButton = new TGCheckButton(group_general, "raw waveform  ");
@@ -48,7 +48,7 @@ ControlWindow::ControlWindow(const TGWindow *p, int w, int h)
         TGNumberFormat::kNESInteger,
         TGNumberFormat::kNEANonNegative,
         TGNumberFormat::kNELLimitMinMax,
-        0, 8255);
+        0, 6000);
     group_general->AddFrame(timeEntry, new TGLayoutHints(kLHintsTop | kLHintsLeft,  1, 1, 1, 1));
 
     timeModeButton = new TGCheckButton(group_general, "time mode  ");

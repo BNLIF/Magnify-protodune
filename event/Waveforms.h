@@ -14,7 +14,7 @@ class BadChannels;
 class Waveforms {
 public:
     Waveforms();
-    Waveforms(TH2F *h, BadChannels* v, TString name="", TString title="", double scale=1);
+    Waveforms(TH2F *h, BadChannels* v, TString name="", TString title="", double scale=1, double threshold=600);
     virtual ~Waveforms();
 
     void SetThreshold(double x);
@@ -27,6 +27,7 @@ public:
     void Clear();
     void DrawLines();
     void HideLines();
+    int GetPlaneNo(int chanNo);
 
     TH2F *hOrig;
     TH2F *hDummy;
@@ -35,6 +36,8 @@ public:
     // vector<int>* bad_channels;
     BadChannels *bad_channels;
     vector<TLine*> lines;
+    vector<TLine*> apa_lines;
+
 
     int nChannels;  // nBinsX
     int nTDCs;       // nBinsY
@@ -42,6 +45,7 @@ public:
     double fScale;    // electron to
     TString fName;
     TString fTitle;
+    int planeNo; // 0,1,2
     double threshold;
     bool useChannelThreshold;
     int zmin;

@@ -20,7 +20,7 @@ using namespace std;
 Waveforms::Waveforms()
 {}
 
-Waveforms::Waveforms(TH2F *h, BadChannels* v, TString name, TString title, double scale)
+Waveforms::Waveforms(TH2F *h, BadChannels* v, TString name, TString title, double scale, double threshold)
 {
     // 2D hist: x: channel id; y: tdc 0 - 9600 or 0 - 9600/4
     hOrig = h;
@@ -32,6 +32,9 @@ Waveforms::Waveforms(TH2F *h, BadChannels* v, TString name, TString title, doubl
     fName = (name == "" ? hOrig->GetName() : name.Data());
     fTitle = (title == "" ? hOrig->GetTitle() : title.Data());
     isDecon = name.Contains("decon") ? true : false;
+    if (name.Contains("hu")) planeNo = 0;
+    else if (name.Contains("hv")) planeNo = 1;
+    else planeNo = 2;
     cout << name <<  ": nChannels: " << nChannels << " | nTDCs: " << nTDCs << endl;
 
     // cout << "isDecon: " << isDecon << endl;
@@ -64,9 +67,14 @@ Waveforms::Waveforms(TH2F *h, BadChannels* v, TString name, TString title, doubl
             lines.push_back(line);
         }
     }
+    for (int i=0; i!=5; i++) {
+        line = new TLine(2560*(i+1), 0, 2560*(i+1), 6000);
+        line->SetLineColorAlpha(kBlack, 0.2);
+        apa_lines.push_back(line);
+    }
 
     SetZRange(10, 20);
-    SetThreshold(600);
+    SetThreshold(threshold);
 }
 
 Waveforms::~Waveforms()
@@ -104,9 +112,11 @@ void Waveforms::SetThreshold(double x)
     TBox *box = 0;
     cout << fName << ": creating boxes ... " << flush;
     for (int i=1; i<=nChannels; i++) {
+        if (GetPlaneNo(i) != planeNo) continue;
         for (int j=1; j<=nTDCs; j++) {
             double content = hOrig->GetBinContent(i, j) * fScale;
             if (TMath::Abs(content)>threshold) {
+                // cout << content << ", " << threshold << endl;
                 box = new TBox(
                     hOrig->GetXaxis()->GetBinLowEdge(i),
                     hOrig->GetYaxis()->GetBinLowEdge(j),
@@ -149,6 +159,8 @@ void Waveforms::SetThreshold(TH1I *h, double scaling)
     cout << boxes.size() <<  " created. " << endl;
 }
 
+
+
 void Waveforms::DrawLines()
 {
     // cout << lines.size() << " lines" << endl;
@@ -179,6 +191,9 @@ void Waveforms::Draw2D()
         boxes[i]->SetFillColor(palette->GetValueColor(box_values[i]));
         boxes[i]->Draw();
     }
+    for (int i=0; i!=5; i++) {
+        apa_lines[i]->Draw();
+    }
 }
 
 TH1F* Waveforms::Draw1D(int chanNo, const char* options)
@@ -201,7 +216,7 @@ TH1F* Waveforms::Draw1D(int chanNo, const char* options)
         hWire->SetBinContent(i, hOrig->GetBinContent(binNo, i)*fScale);
         // if (hOrig->GetBinContent(binNo, i)>0) cout << i << ": " << fScale << "," << hOrig->GetBinContent(binNo, i) << ", " << hWire->GetBinContent(i) << endl;
     }
-    cout << "binNo " << binNo << endl;
+    // cout << "binNo " << binNo << endl;
 
     TString s("same");
     if (s != options) {
@@ -236,4 +251,20 @@ TH1F* Waveforms::Draw1DTick(int tick, const char* options)
     hTick->GetXaxis()->SetTitle("channel");
 
     return hTick;
+}
+
+int Waveforms::GetPlaneNo(int chanNo)
+{
+    // 800 u + 800 v + 960 w = 2560
+    int apaNo = chanNo / 2560;
+    int offset = chanNo - apaNo*2560;
+    if (offset < 800) {
+        return 0;
+    }
+    else if (offset < 1600) {
+        return 1;
+    }
+    else {
+        return 2;
+    }
 }

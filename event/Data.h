@@ -13,7 +13,7 @@ class BadChannels;
 class Data {
 public:
     Data();
-    Data(const char* filename, const char* frame, int rebin);
+    Data(const char* filename, double threshold, const char* frame, int rebin);
 
     virtual ~Data();
 
@@ -29,8 +29,11 @@ public:
     int subRunNo;
     int eventNo;
 
+    int GetPlaneNo(int chanNo);
+
+
 private:
-    void load_waveform(const char* name, const char* title="", double scale=1);
+    void load_waveform(const char* name, const char* title="", double scale=1, double threshold=600);
     void load_rawwaveform(const char* name, const char* baseline_name);
     void load_threshold(const char* name);
     // void load_badchannels();

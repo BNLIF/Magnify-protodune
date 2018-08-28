@@ -31,7 +31,7 @@
 using namespace std;
 
 
-GuiController::GuiController(const TGWindow *p, int w, int h, const char* fn, const char* frame, int rebin)
+GuiController::GuiController(const TGWindow *p, int w, int h, const char* fn, double threshold, const char* frame, int rebin)
 {
     mw = new MainWindow(p, w, h);
     vw = mw->fViewWindow;
@@ -45,7 +45,7 @@ GuiController::GuiController(const TGWindow *p, int w, int h, const char* fn, co
     else {
         filename = fn;
     }
-    data = new Data(filename.Data(), frame, rebin);
+    data = new Data(filename.Data(), threshold, frame, rebin);
     mw->SetWindowName(TString::Format("Magnify: run %i, sub-run %i, event %i",
         data->runNo, data->subRunNo, data->eventNo));
 
@@ -227,9 +227,12 @@ void GuiController::UpdateShowRaw()
 {
     int channel = cw->channelEntry->GetNumber();
     cout << "channel: " << channel << endl;
-    int wfsNo = 0;
-    if (channel>=data->wfs.at(1)->firstChannel && channel<data->wfs.at(2)->firstChannel) wfsNo = 1;
-    else if (channel>=data->wfs.at(2)->firstChannel) wfsNo = 2;
+    // int wfsNo = 0;
+    // if (channel>=data->wfs.at(1)->firstChannel && channel<data->wfs.at(2)->firstChannel) wfsNo = 1;
+    // else if (channel>=data->wfs.at(2)->firstChannel) wfsNo = 2;
+
+    int wfsNo = data->GetPlaneNo(channel);
+    cout << "plane: " << data->GetPlaneNo(channel) << endl;
 
     int padNo = wfsNo+7;
     vw->can->cd(padNo);
@@ -255,9 +258,11 @@ void GuiController::ChannelChanged()
     }
     int channel = cw->channelEntry->GetNumber();
     cout << "channel: " << channel << endl;
-    int wfsNo = 0;
-    if (channel>=data->wfs.at(1)->firstChannel && channel<data->wfs.at(2)->firstChannel) wfsNo = 1;
-    else if (channel>=data->wfs.at(2)->firstChannel) wfsNo = 2;
+    // int wfsNo = 0;
+    // if (channel>=data->wfs.at(1)->firstChannel && channel<data->wfs.at(2)->firstChannel) wfsNo = 1;
+    // else if (channel>=data->wfs.at(2)->firstChannel) wfsNo = 2;
+    int wfsNo = data->GetPlaneNo(channel);
+    cout << "plane: " << data->GetPlaneNo(channel) << endl;
 
     int padNo = wfsNo+7;
     vw->can->cd(padNo);

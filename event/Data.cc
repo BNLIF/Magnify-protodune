@@ -22,7 +22,7 @@ using namespace std;
 Data::Data()
 {}
 
-Data::Data(const char* filename, const char* frame, int rebin)
+Data::Data(const char* filename, double threshold, const char* frame, int rebin)
 {
     rootFile = TFile::Open(filename);
     if (!rootFile) {
@@ -33,13 +33,13 @@ Data::Data(const char* filename, const char* frame, int rebin)
     bad_channels = new BadChannels( (TTree*)rootFile->Get("T_bad") );
     load_runinfo();
 
-    load_waveform("hu_raw", "U Plane (Denoised)");
-    load_waveform("hv_raw", "V Plane (Denoised)");
-    load_waveform("hw_raw", "W Plane (Denoised)");
+    load_waveform("hu_raw", "U Plane (Denoised)", 1., threshold);
+    load_waveform("hv_raw", "V Plane (Denoised)", 1., threshold);
+    load_waveform("hw_raw", "W Plane (Denoised)", 1., threshold);
 
     for (int iplane=0; iplane<3; ++iplane) {
         load_waveform(Form("h%c_%s", 'u'+iplane, frame),
-                      Form("%c Plane (Deconvoluted)", 'U'+iplane), 1./(500.*rebin/4.0));
+                      Form("%c Plane (Deconvoluted)", 'U'+iplane), 1./(500.*rebin/4.0), threshold);
     }
 
     load_rawwaveform("hu_orig", "hu_baseline");
@@ -64,6 +64,22 @@ void Data::load_runinfo()
         runNo = 0;
         subRunNo = 0;
         eventNo = 0;
+    }
+}
+
+int Data::GetPlaneNo(int chanNo)
+{
+    // 800 u + 800 v + 960 w = 2560
+    int apaNo = chanNo / 2560;
+    int offset = chanNo - apaNo*2560;
+    if (offset < 800) {
+        return 0;
+    }
+    else if (offset < 1600) {
+        return 1;
+    }
+    else {
+        return 2;
     }
 }
 
@@ -98,7 +114,7 @@ WANT* maybe_cast(TObject* obj, const std::vector<std::string>& okay_types, bool 
     return nullptr;
 }
 
-void Data::load_waveform(const char* name, const char* title, double scale)
+void Data::load_waveform(const char* name, const char* title, double scale, double threshold)
 {
     TObject* obj = rootFile->Get(name);
     if (!obj) {
@@ -122,7 +138,7 @@ void Data::load_waveform(const char* name, const char* title, double scale)
     auto hist = maybe_cast<TH2, TH2F>(obj, {"TH2F", "TH2I"}, true);
     hist->SetXTitle("channel");
     hist->SetYTitle("ticks");
-    wfs.push_back( new Waveforms(hist, bad_channels, name, title, scale) );
+    wfs.push_back( new Waveforms(hist, bad_channels, name, title, scale, threshold) );
 }
 
 void Data::load_rawwaveform(const char* name, const char* baseline_name)
