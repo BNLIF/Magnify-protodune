@@ -3,6 +3,7 @@
 #include "TH2I.h"
 #include "TH1I.h"
 #include "TColor.h"
+#include "TLine.h"
 #include "TDirectory.h"
 #include "TString.h"
 #include "TPad.h"
@@ -68,6 +69,14 @@ TH1I* RawWaveforms::Draw1D(int chanNo, const char* options)
     }
     hWire->SetTitle( TString::Format("baseline @%i", baseline) );
     hWire->Draw(options);
+
+    for (int i=0; i<64; i++) {
+        if ((baseline-i)%64 == 0) {
+            TLine *line = new TLine(0, -i, nTDCs, -i);
+            line->SetLineColorAlpha(kRed-3, 0.5);
+            line->Draw();
+        }
+    }
 
     return hWire;
 }
