@@ -38,3 +38,8 @@ cd scripts/
 root -l loadClasses.C Magnify.C
 ```
 
+### Merge six APAs from WCT simulation
+```
+./magnify-mergesim.sh /absolute/path/to/file/directory/ filename.root
+```
+The merged file will be available at data/filename-v2.root

@@ -21,13 +21,4 @@ cd $magnify_source/scripts
 #echo $frame
 #echo $rebin
 
-suffix="-v2.root"
-root -l -b -q MergeAPA.C'("'"$rootfile"'", "'"$suffix"'")'
-newrootfile="${rootfile/.root/$suffix}"
-if [ -f $newrootfile ]
-then
-    rootfile=$newrootfile
-fi
-echo $rootfile
-
 root -l loadClasses.C Magnify.C'("'"$rootfile"'", '$threshold', "'"$frame"'", '$rebin')'
