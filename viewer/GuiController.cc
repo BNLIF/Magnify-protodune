@@ -288,16 +288,16 @@ void GuiController::ChannelChanged()
         hMain->SetTitle( TString::Format("%s (bad channel)", hMain->GetTitle()) );
     }
 
-    // TH1F *h = data->wfs.at(wfsNo+3)->Draw1D(channel, "same" ); // draw calib
-    // h->SetLineColor(kRed);
+    TH1F *h = data->wfs.at(wfsNo+3)->Draw1D(channel, "same" ); // draw calib
+    h->SetLineColor(kRed);
 
-    // TH1I *ht = data->thresh_histos.at(wfsNo);
-    // int thresh = ht->GetBinContent(ht->GetXaxis()->FindBin(channel));
-    // cout << "thresh: " << thresh << endl;
-    // TLine *l = new TLine(0, thresh/500., data->wfs.at(wfsNo)->nTDCs, thresh/500.);
-    // l->SetLineColor(kMagenta);
-    // l->SetLineWidth(2);
-    // l->Draw();
+    TH1I *ht = data->thresh_histos.at(wfsNo);
+    int thresh = ht->GetBinContent(ht->GetXaxis()->FindBin(channel));
+    cout << "thresh: " << thresh << endl;
+    TLine *l = new TLine(0, thresh/500., data->wfs.at(wfsNo)->nTDCs, thresh/500.);
+    l->SetLineColor(kMagenta);
+    l->SetLineWidth(2);
+    l->Draw();
 
     if (cw->rawWfButton->IsDown()) {
         TH1I *hh = data->raw_wfs.at(wfsNo)->Draw1D(channel, "same"); // draw calib

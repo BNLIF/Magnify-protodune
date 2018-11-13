@@ -114,8 +114,8 @@ void MergeSim(const char* rootfile,
   std::string outpathname(outpath);
   std::string finname(rootfile);
   std::string foutname(rootfile);
-  finname = inpathname + finname;
-  foutname = outpathname + foutname;
+  finname = inpathname + "/"+ finname;
+  foutname = outpathname + "/"+ foutname;
   foutname = std::regex_replace(foutname, std::regex(".root"), std::string(suffix));
 
   std::cout << "input file: " << rootfile << std::endl;

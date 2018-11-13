@@ -8,7 +8,7 @@ if [[ "$rootfile" =~ :// ]] ; then
 else
     rootfile=$(readlink -f "$rootfile")
 fi
-threshold="${1:-600}"
+threshold="${1:-50}"
 frame="${2:-decon}"
 startdir=$(pwd)
 rebin="${3:-4}"
