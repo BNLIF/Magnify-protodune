@@ -16,8 +16,8 @@ rootfile="$2"
 
 cd $magnify_source
 
-root -l -b -q scripts/MergeSim.C'("'"$rootfile"'", "'"$inpath"'", "data/", "recreate", "orig", "orig", "-v2.root")'
-root -l -b -q scripts/MergeSim.C'("'"$rootfile"'", "'"$inpath"'", "data/", "update", "orig", "raw", "-v2.root")'
-root -l -b -q scripts/MergeSim.C'("'"$rootfile"'", "'"$inpath"'", "data/", "update", "gauss", "decon", "-v2.root")'
-root -l -b -q scripts/MergeSim.C'("'"$rootfile"'", "'"$inpath"'", "data/", "update", "threshold", "threshold", "-v2.root")'
-root -l -b -q scripts/MergeSim.C'("'"$rootfile"'", "'"$inpath"'", "data/", "update", "threshold", "baseline", "-v2.root")'
+root -l -b -q scripts/MergeSim.C+'("'"$rootfile"'", "'"$inpath"'", "data/", "recreate", "orig", "orig", "-v2.root")'
+root -l -b -q scripts/MergeSim.C+'("'"$rootfile"'", "'"$inpath"'", "data/", "update", "orig", "raw", "-v2.root")'
+root -l -b -q scripts/MergeSim.C+'("'"$rootfile"'", "'"$inpath"'", "data/", "update", "gauss", "decon", "-v2.root")'
+root -l -b -q scripts/MergeSim.C+'("'"$rootfile"'", "'"$inpath"'", "data/", "update", "threshold", "threshold", "-v2.root")'
+root -l -b -q scripts/MergeSim.C+'("'"$rootfile"'", "'"$inpath"'", "data/", "update", "threshold", "baseline", "-v2.root")'
