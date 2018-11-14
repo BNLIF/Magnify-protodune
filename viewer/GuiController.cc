@@ -294,7 +294,7 @@ void GuiController::ChannelChanged()
     TH1I *ht = data->thresh_histos.at(wfsNo);
     int thresh = ht->GetBinContent(ht->GetXaxis()->FindBin(channel));
     cout << "thresh: " << thresh << endl;
-    TLine *l = new TLine(0, thresh/500., data->wfs.at(wfsNo)->nTDCs, thresh/500.);
+    TLine *l = new TLine(0, thresh/100., data->wfs.at(wfsNo)->nTDCs, thresh/100.);
     l->SetLineColor(kMagenta);
     l->SetLineWidth(2);
     l->Draw();
