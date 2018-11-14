@@ -39,7 +39,7 @@ Data::Data(const char* filename, double threshold, const char* frame, int rebin)
 
     for (int iplane=0; iplane<3; ++iplane) {
         load_waveform(Form("h%c_%s", 'u'+iplane, frame),
-                      Form("%c Plane (Deconvoluted)", 'U'+iplane), 1./(100.*rebin/4.0), threshold);
+                      Form("%c Plane (Deconvoluted)", 'U'+iplane), 1./(500.*rebin/4.0), threshold);
     }
 
     load_rawwaveform("hu_orig", "hu_baseline");

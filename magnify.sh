@@ -11,7 +11,7 @@ fi
 threshold="${1:-18}"
 frame="${2:-decon}"
 startdir=$(pwd)
-rebin="${3:-4}"
+rebin="${3:-1}"
 
 #echo "Loading frame \"$frame\" rebin \"$rebin\""
 
