@@ -135,7 +135,8 @@ void MergeData(const char* rootfile,
       TH1I* hw_orig = (TH1I*)f1->Get(Form("hw_%s", tag));
 
       double xmin, xmax;
-      Get1DRange(xmin, xmax, f1);
+      //Get1DRange(xmin, xmax, f1);
+      xmin=-0.5; xmax=15359.5; // hard coded as the data missed some channels
       std::cout << "1D range: " << xmin << " " << xmax << std::endl;
 
      int nbinsx = xmax-xmin;
@@ -160,7 +161,9 @@ void MergeData(const char* rootfile,
    TH2I* hw_orig = (TH2I*)f1->Get(Form("hw_%s", tag));
 
      double xmin, ymin, xmax, ymax;
-     Get2DRange(xmin, xmax, ymin, ymax, f1);
+     //Get2DRange(xmin, xmax, ymin, ymax, f1);
+     xmin=-0.5; xmax=15359.5;
+     ymin=0; ymax=6000;
      std::cout << "2D range: " << xmin << " " << xmax << " " << ymin << " " << ymax << std::endl;
 
      int nbinsx = xmax-xmin;
@@ -193,7 +196,9 @@ void MergeData(const char* rootfile,
    TH2F* hw_orig = (TH2F*)f1->Get(Form("hw_%s", tag));
 
      double xmin, ymin, xmax, ymax;
-     Get2DRange(xmin, xmax, ymin, ymax, f1);
+     //Get2DRange(xmin, xmax, ymin, ymax, f1);
+     xmin=-0.5; xmax=15359.5;
+     ymin=0; ymax=6000;
      std::cout << "2D range: " << xmin << " " << xmax << " " << ymin << " " << ymax << std::endl;
 
      int nbinsx = xmax-xmin;
