@@ -2,6 +2,13 @@
 
 ## A magnifier to investigate raw and deconvoluted waveforms.
 
+### Preprocess
+```
+./preprocess.sh /path/to/your/magnify.root
+```
+This is a wrapper for merging magnify histograms from all APAs. See more detailed description through "./preprocess.sh -h".
+
+
 ### Usage
 
 ```
@@ -38,8 +45,4 @@ cd scripts/
 root -l loadClasses.C Magnify.C
 ```
 
-### Merge six APAs from WCT simulation
-```
-./magnify-mergesim.sh /absolute/path/to/file/directory/ filename.root
-```
-The merged file will be available at data/filename-v2.root
+
