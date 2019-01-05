@@ -9,12 +9,14 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
+#include "TSystem.h"
 
 #include <vector>
 #include <string>
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -32,6 +34,8 @@ Data::Data(const char* filename, double threshold, const char* frame, int rebin)
     }
     bad_channels = new BadChannels( (TTree*)rootFile->Get("T_bad") );
     load_runinfo();
+
+    load_channelstatus();
 
     load_waveform("hu_raw", "U Plane (Denoised)", 1., threshold);
     load_waveform("hv_raw", "V Plane (Denoised)", 1., threshold);
@@ -65,6 +69,35 @@ void Data::load_runinfo()
         subRunNo = 0;
         eventNo = 0;
     }
+}
+
+void Data::load_channelstatus(){
+    string currentDir(gSystem->WorkingDirectory());
+
+    std::ifstream in(currentDir + "/../data/badchan.txt");
+    std::string input;
+    while(std::getline(in, input)){
+        std::stringstream stream(input);
+        int nchan;
+        stream >> nchan;
+        std::string description = stream.str();
+        size_t ind = description.find_first_of("#");
+        description = description.substr(ind+1);
+        channel_status[nchan] = "(Bad) " + description;
+    }
+    in.close();
+
+    in.open(currentDir + "/../data/noisychan.txt");
+    while(std::getline(in, input)){
+        std::stringstream stream(input);
+        int nchan;
+        stream >> nchan;
+        std::string description = stream.str();
+        size_t ind = description.find_first_of("#");
+        description = description.substr(ind+1);
+        channel_status[nchan] = "(Noisy)" + description;
+    }
+    in.close();
 }
 
 int Data::GetPlaneNo(int chanNo)

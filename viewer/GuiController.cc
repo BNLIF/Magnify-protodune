@@ -28,6 +28,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 
@@ -56,7 +57,8 @@ GuiController::GuiController(const TGWindow *p, int w, int h, const char* fn, do
     for (int i=0; i<3; i++) {
         vw->can->cd(i+7);
         int chanNo = data->wfs.at(i)->firstChannel;
-        data->wfs.at(i)->Draw1D(chanNo);
+        std::string comment = data->channel_status[chanNo];
+        data->wfs.at(i)->Draw1D(chanNo, "", comment.c_str());
         TH1F *h = data->wfs.at(i+3)->Draw1D(chanNo, "same"); // draw calib
         h->SetLineColor(kRed);
         hCurrent[i] = h;
@@ -267,7 +269,8 @@ void GuiController::ChannelChanged()
     int padNo = wfsNo+7;
     vw->can->cd(padNo);
 
-    TH1F *hwf = data->wfs.at(wfsNo)->Draw1D(channel);
+    std::string comment = data->channel_status[channel];
+    TH1F *hwf = data->wfs.at(wfsNo)->Draw1D(channel, "", comment.c_str());
     hCurrent[wfsNo] = hwf;
     hwf->SetLineColor(kBlack);
 

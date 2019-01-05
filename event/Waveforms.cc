@@ -196,10 +196,11 @@ void Waveforms::Draw2D()
     }
 }
 
-TH1F* Waveforms::Draw1D(int chanNo, const char* options)
+TH1F* Waveforms::Draw1D(int chanNo, const char* options, const char* comment)
 {
     TString name = TString::Format("hWire_%s", fName.Data());
-    TString title = TString::Format("Channel %i", chanNo);
+    // TString title = TString::Format("Channel %i", chanNo);
+    TString title = TString::Format("Channel %i          %s", chanNo, comment);
 
     TH1F *hWire = (TH1F*)gDirectory->FindObject(name);
     if (hWire) delete hWire;

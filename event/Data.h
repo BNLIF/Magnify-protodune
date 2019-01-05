@@ -9,6 +9,8 @@ class RawWaveforms;
 class BadChannels;
 
 #include <vector>
+#include <map>
+#include <string>
 
 class Data {
 public:
@@ -29,6 +31,8 @@ public:
     int subRunNo;
     int eventNo;
 
+    std::map<int, std::string> channel_status;
+
     int GetPlaneNo(int chanNo);
 
 
@@ -38,6 +42,7 @@ private:
     void load_threshold(const char* name);
     // void load_badchannels();
     void load_runinfo();
+    void load_channelstatus();
 };
 
 #endif
