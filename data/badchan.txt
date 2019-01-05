@@ -1,0 +1,133 @@
+7680 # CE group: good, but no signal/sticky
+1 # CE group: Broken connection  
+2 # CE group: good, but no signal/sticky
+4 # CE group: good, but no signal/sticky
+5125 #femb318x
+11270 # CE group: good, but no signal/sticky
+7681 # CE group: Broken connection  
+9736 # CE group: Broken connection  
+12333 # CE group: good, but no signal/sticky
+7190 #femb318x
+7194 #femb318x
+12324 # CE group: good, but no signal/sticky
+4652 # CE group: good, but no signal/sticky
+4141 # CE group: good, but no signal/sticky
+4654 # CE group: good, but no signal/sticky
+4143 # CE group: good, but no signal/sticky
+4656 # CE group: good, but no signal/sticky
+4658 # CE group: good, but no signal/sticky
+13363 # CE group: good, but no signal/sticky
+4660 # CE group: good, but no signal/sticky
+9782 # CE group: good, but no signal/sticky
+9282 # CE group: Broken connection  
+9283 # CE group: Broken connection  
+991 # Matt W.: intermitently bad
+1719 #femb318x
+3661 # CE group: good, but no signal/sticky
+3663 # CE group: good, but no signal/sticky
+9305 # CE group: good, but no signal/sticky
+9307 # CE group: good, but no signal/sticky
+9309 # CE group: good, but no signal/sticky
+9311 # CE group: good, but no signal/sticky
+1632 # CE group: good, but no signal/sticky
+9313 # CE group: good, but no signal/sticky
+9315 # CE group: good, but no signal/sticky
+4385 # CE group: good, but no signal/sticky
+8821 # CE group: good, but no signal/sticky
+8823 # CE group: good, but no signal/sticky
+2169 # CE group: good, but no signal/sticky
+9854 # CE group: Broken connection  
+7295 # CE group: Broken connection  
+8328 # CE group: Broken connection  
+4748 # CE group: good, but no signal/sticky
+4750 # CE group: good, but no signal/sticky
+4752 # CE group: good, but no signal/sticky
+4754 # CE group: good, but no signal/sticky
+4756 # CE group: good, but no signal/sticky
+4758 # CE group: good, but no signal/sticky
+13081 # CE group: Broken connection  
+10907 # CE group: good, but no signal/sticky
+9263 # CE group: good, but no signal/sticky
+1200 # CE group: Broken connection  
+5321 # CE group: Broken connection  
+11457 # CE group: Broken connection  
+11459 # CE group: Broken connection  
+11463 # CE group: Broken connection  
+200 # Matt W.: intermitently bad
+13001 # CE group: Broken connection  
+202 # Matt W.: intermitently bad
+204 # Matt W.: intermitently bad
+11469 # CE group: Broken connection  
+206 # Matt W.: intermitently bad
+8480 # CE group: Broken connection  
+208 # Matt W.: intermitently bad
+9776 # CE group: good, but no signal/sticky
+7918 #femb318x
+5361 # CE group: good, but no signal/sticky
+5363 # CE group: Broken connection  
+11902 # CE group: good, but no signal/sticky
+10800 # CE group: Broken connection  
+11517 # CE group: Broken connection  
+9990 # CE group: Inactive FE
+9772 # CE group: good, but no signal/sticky
+9261 # CE group: good, but no signal/sticky
+11024 # CE group: Broken connection  
+9774 # CE group: good, but no signal/sticky
+4377 # CE group: good, but no signal/sticky
+4379 # CE group: good, but no signal/sticky
+4381 # CE group: good, but no signal/sticky
+4383 # CE group: good, but no signal/sticky
+800 # CE group: Broken connection  
+801 # CE group: Broken connection  
+4387 # CE group: good, but no signal/sticky
+1829 # Matt W.: intermitently bad
+1831 # Matt W.: intermitently bad
+1833 # Matt W.: intermitently bad
+1835 # Matt W.: intermitently bad
+9778 # CE group: good, but no signal/sticky
+9693 # CE group: good, but no signal/sticky
+8501 # CE group: good, but no signal/sticky
+8503 # CE group: good, but no signal/sticky
+9780 # CE group: good, but no signal/sticky
+4410 # CE group: ENC > 2000e
+4411 # CE group: Inactive FE
+4412 # CE group: Inactive FE
+993 # Matt W.: intermitently bad
+995 # Matt W.: intermitently bad
+9695 # CE group: good, but no signal/sticky
+400 # CE group: Broken connection  
+401 # CE group: Broken connection  
+876 # CE group: Broken connection  
+10102 # CE group: good, but no signal/sticky
+7551 #femb318x
+1837 # Matt W.: intermitently bad
+11842 # CE group: Inactive FE
+8080 # CE group: Broken connection  
+2961 # CE group: Broken connection  
+7058 # CE group: Broken connection  
+11669 # CE group: Broken connection  
+11679 # CE group: Broken connection  
+4521 # CE group: good, but no signal/sticky
+4523 # CE group: good, but no signal/sticky
+4525 # CE group: good, but no signal/sticky
+4527 # CE group: good, but no signal/sticky
+4529 # CE group: good, but no signal/sticky
+4531 # CE group: good, but no signal/sticky
+12801 # CE group: Broken connection  
+1839 # Matt W.: intermitently bad
+11203 # CE group: good, but no signal/sticky
+12744 # CE group: good, but no signal/sticky
+10697 # CE group: good, but no signal/sticky
+10189 # CE group: good, but no signal/sticky
+12756 # CE group: Broken connection  
+3541 # CE group: good, but no signal/sticky
+3543 # CE group: good, but no signal/sticky
+9689 # CE group: good, but no signal/sticky
+9691 # CE group: good, but no signal/sticky
+4061 # CE group: good, but no signal/sticky
+4063 # CE group: good, but no signal/sticky
+9697 # CE group: good, but no signal/sticky
+9699 # CE group: good, but no signal/sticky
+997 # Matt W.: intermitently bad
+999 # Matt W.: intermitently bad
+6132 # CE group: Broken connection  
