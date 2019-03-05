@@ -24,6 +24,7 @@
 #include "TBox.h"
 #include "TLine.h"
 #include "TColor.h"
+#include "TStyle.h"
 
 #include <iostream>
 #include <vector>
@@ -274,6 +275,7 @@ void GuiController::ChannelChanged()
     hCurrent[wfsNo] = hwf;
     hwf->SetLineColor(kBlack);
 
+
     TString name = TString::Format("hWire_%s_2d_dummy", data->wfs.at(wfsNo)->fName.Data());
     TH2F *hMain = (TH2F*)gDirectory->FindObject(name);
     if (!hMain) {
@@ -306,6 +308,31 @@ void GuiController::ChannelChanged()
         TH1I *hh = data->raw_wfs.at(wfsNo)->Draw1D(channel, "same"); // draw calib
         hh->SetLineColor(kBlue);
         hMain->SetTitle( TString::Format("%s, %s", hMain->GetTitle(), hh->GetTitle()) );
+    }
+
+    // mask the bad channel region
+    if (cw->badChanelButton->IsDown()){
+    BadChannels* bad_channels = data->wfs.at(wfsNo)->bad_channels;
+    vector<int> bad_id = bad_channels->bad_id;
+    auto it = std::find(bad_id.begin(), bad_id.end(), channel);
+    if(it!=bad_id.end()){
+        auto idx = std::distance(bad_id.begin(), it);
+        vector<int> bad_start = bad_channels->bad_start;
+        vector<int> bad_end = bad_channels->bad_end;
+        TLine* lh = new TLine(bad_start.at(idx), hwf->GetMinimum(), bad_start.at(idx), hwf->GetMaximum());
+        TLine* rh = new TLine(bad_end.at(idx), hwf->GetMinimum(), bad_end.at(idx), hwf->GetMaximum());
+        lh->SetLineColor(2); lh->SetLineStyle(2); lh->SetLineWidth(2);
+        rh->SetLineColor(2); rh->SetLineStyle(2); rh->SetLineWidth(2);
+        lh->Draw("same");
+        rh->Draw("same");
+        cout << "find a bad channel :" << channel << " start: " << bad_start.at(idx) << " end: " << bad_end.at(idx) << endl;
+
+        TBox* breg = new TBox(bad_start.at(idx), hwf->GetMinimum(), bad_end.at(idx), hwf->GetMaximum());
+        breg->SetFillStyle(3335);
+        breg->SetFillColor(kRed);
+        // gStyle->SetHatchesSpacing(5);
+        breg->Draw("same");
+    }
     }
 
     vw->can->GetPad(padNo)->SetGridx();

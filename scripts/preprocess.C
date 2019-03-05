@@ -15,6 +15,7 @@ Wenqiang Gu (wgu@bnl.gov)
 #include "TClass.h"
 #include "TString.h"
 #include "TROOT.h"
+#include "TTree.h"
 
 /*
  * Get File Name from a Path with or without extension
@@ -66,7 +67,7 @@ void MergeByTag(TFile* f1, TH2* hall, const char* tag="hu_orig", bool set_baseli
 
             }
           }
-          std::cout << "Mergeing " << h->GetName() << " to " << hall->GetName() << std::endl;
+          std::cout << "Merging " << h->GetName() << " to " << hall->GetName() << std::endl;
 
         }
      }
@@ -89,7 +90,7 @@ void Merge1DByTag(TFile* f1, TH1* hall, const char* tag="hu_threshold"){
               int bin1 = hall->FindBin(X);
               hall->SetBinContent(bin1, h->GetBinContent(i));
           }
-          std::cout << "Mergeing " << h->GetName() << " to " << hall->GetName() << std::endl;
+          std::cout << "Merging " << h->GetName() << " to " << hall->GetName() << std::endl;
         }
      }
 }
@@ -120,6 +121,54 @@ void preprocess(
   int nbinsy = ymax-ymin;
 
   TFile *f1 = TFile::Open(inPath.c_str());
+  // Merge trees
+  if(std::string(intag)=="T_bad"){
+    TTree* t0 = (TTree*)f1->Get("T_bad0");
+    TTree* t1 = (TTree*)f1->Get("T_bad1");
+    TTree* t2 = (TTree*)f1->Get("T_bad2");
+    TTree* t3 = (TTree*)f1->Get("T_bad3");
+    TTree* t4 = (TTree*)f1->Get("T_bad4");
+    TTree* t5 = (TTree*)f1->Get("T_bad5");
+
+    TFile* fout = new TFile(outPath.c_str(), file_open_mode);
+    TList *list = new TList;
+    int ntree = 0;
+    if(t0) {
+      list->Add(t0);
+      ntree++;
+    }
+    if(t1) {
+      list->Add(t1);
+      ntree++;
+    }
+    if(t2) {
+      list->Add(t2);
+      ntree++;
+    }
+    if(t3) {
+      list->Add(t3);
+      ntree++;
+    }
+    if(t4) {
+      list->Add(t4);
+      ntree++;
+    }
+    if(t5) {
+      list->Add(t5);
+      ntree++;
+    }
+    if (ntree==0) return;
+
+    fout->cd();
+    TTree *newtree = TTree::MergeTrees(list);
+    newtree->SetName("T_bad");
+    newtree->SetTitle("T_bad");
+    newtree->Write();
+    fout->Close();
+    return;
+  }
+
+  // Merge histograms
   auto h = f1->Get(Form("hu_%s", intag));
   if(h) return;
   if(std::string(outtag)=="threshold"){
