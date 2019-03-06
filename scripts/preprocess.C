@@ -157,13 +157,20 @@ void preprocess(
       list->Add(t5);
       ntree++;
     }
-    if (ntree==0) return;
 
-    fout->cd();
-    TTree *newtree = TTree::MergeTrees(list);
-    newtree->SetName("T_bad");
-    newtree->SetTitle("T_bad");
-    newtree->Write();
+    if (ntree>0){
+      fout->cd();
+      TTree *newtree = TTree::MergeTrees(list);
+      std::cout << "\n No. of bad channels: "<< newtree->GetEntries() << "\n"; 
+      newtree->SetName("T_bad");
+      newtree->SetTitle("T_bad");
+      newtree->Write();      
+    }
+    else {
+      std::cout << "\n No. of bad channels: 0 \n";
+    }
+
+    std::cout << "\n Now try: ./magnify.sh " + outPath + "\n";
     fout->Close();
     return;
   }
