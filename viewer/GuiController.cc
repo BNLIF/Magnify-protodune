@@ -259,6 +259,25 @@ void GuiController::ChannelChanged()
     if (cw->timeModeButton->IsDown()) {
         return; // skip if time mode is selected
     }
+    if (cw->badOnlyButton->IsDown()){
+        int curr = cw->channelEntry->GetNumber();
+        int wfsNum = data->GetPlaneNo(curr);
+        BadChannels* bad_channels = data->wfs.at(wfsNum)->bad_channels;
+        vector<int> bad_id = bad_channels->bad_id;
+        int next = 0;
+        auto it = std::find(bad_id.begin(), bad_id.end(), curr);
+        if (it!=bad_id.end()){
+            next = *it;
+        }
+        else{
+            it = std::upper_bound(bad_id.begin(), bad_id.end(), curr); // find first element greater
+            if(it!=bad_id.end()){
+                next = *it;
+            }            
+        }
+        cw->channelEntry->SetNumber(next);
+    }
+
     int channel = cw->channelEntry->GetNumber();
     cout << "channel: " << channel << endl;
     // int wfsNo = 0;
@@ -312,33 +331,41 @@ void GuiController::ChannelChanged()
 
     // mask the bad channel region
     if (cw->badChanelButton->IsDown()){
-    BadChannels* bad_channels = data->wfs.at(wfsNo)->bad_channels;
-    vector<int> bad_id = bad_channels->bad_id;
-    auto it = std::find(bad_id.begin(), bad_id.end(), channel);
-    if(it!=bad_id.end()){
-        auto idx = std::distance(bad_id.begin(), it);
-        vector<int> bad_start = bad_channels->bad_start;
-        vector<int> bad_end = bad_channels->bad_end;
-        TLine* lh = new TLine(bad_start.at(idx), hwf->GetMinimum(), bad_start.at(idx), hwf->GetMaximum());
-        TLine* rh = new TLine(bad_end.at(idx), hwf->GetMinimum(), bad_end.at(idx), hwf->GetMaximum());
-        lh->SetLineColor(2); lh->SetLineStyle(2); lh->SetLineWidth(2);
-        rh->SetLineColor(2); rh->SetLineStyle(2); rh->SetLineWidth(2);
-        lh->Draw("same");
-        rh->Draw("same");
-        cout << "find a bad channel :" << channel << " start: " << bad_start.at(idx) << " end: " << bad_end.at(idx) << endl;
+        BadChannels* bad_channels = data->wfs.at(wfsNo)->bad_channels;
+        vector<int> bad_id = bad_channels->bad_id;
+        int idx=0;
+        for(auto& ch: bad_id){
+            if(ch==channel){
+                vector<int> bad_start = bad_channels->bad_start;
+                vector<int> bad_end = bad_channels->bad_end;
+                TLine* lh = new TLine(bad_start.at(idx), hwf->GetMinimum(), bad_start.at(idx), hwf->GetMaximum());
+                TLine* rh = new TLine(bad_end.at(idx), hwf->GetMinimum(), bad_end.at(idx), hwf->GetMaximum());
+                lh->SetLineColor(2); lh->SetLineStyle(2); lh->SetLineWidth(2);
+                rh->SetLineColor(2); rh->SetLineStyle(2); rh->SetLineWidth(2);
+                lh->Draw("same");
+                rh->Draw("same");
+                cout << "find a bad channel :" << channel << " start: " << bad_start.at(idx) << " end: " << bad_end.at(idx) << endl;
 
-        TBox* breg = new TBox(bad_start.at(idx), hwf->GetMinimum(), bad_end.at(idx), hwf->GetMaximum());
-        breg->SetFillStyle(3335);
-        breg->SetFillColor(kRed);
-        // gStyle->SetHatchesSpacing(5);
-        breg->Draw("same");
-    }
+                TBox* breg = new TBox(bad_start.at(idx), hwf->GetMinimum(), bad_end.at(idx), hwf->GetMaximum());
+                breg->SetFillStyle(3335);
+                breg->SetFillColor(kRed);
+                // gStyle->SetHatchesSpacing(5);
+                breg->Draw("same");
+            }
+            idx ++;
+        }
     }
 
     vw->can->GetPad(padNo)->SetGridx();
     vw->can->GetPad(padNo)->SetGridy();
     vw->can->GetPad(padNo)->Modified();
     vw->can->GetPad(padNo)->Update();
+    // if (cw->badOnlyButton->IsDown()){ // evil mode & print figures
+    //     std:string pwd(gSystem->WorkingDirectory());
+    //     pwd += "/../data/Channel" + std::to_string(channel) + ".png";
+    //     vw->can->GetPad(padNo)->Print(pwd.c_str());
+    //     // std::cerr << "[wgu] print a channel" << channel << " path: " << pwd << endl;
+    // }
 }
 
 void GuiController::TimeChanged()

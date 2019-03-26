@@ -21,6 +21,7 @@ public:
     TGNumberEntry *timeRangeEntry[2];
     TGNumberEntry *adcRangeEntry[2];
     TGCheckButton *badChanelButton;
+    TGCheckButton *badOnlyButton;
     TGCheckButton *timeModeButton;
 
     TGCheckButton *rawWfButton;

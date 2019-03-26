@@ -122,49 +122,30 @@ void preprocess(
 
   TFile *f1 = TFile::Open(inPath.c_str());
   // Merge trees
-  if(std::string(intag)=="T_bad"){
-    TTree* t0 = (TTree*)f1->Get("T_bad0");
-    TTree* t1 = (TTree*)f1->Get("T_bad1");
-    TTree* t2 = (TTree*)f1->Get("T_bad2");
-    TTree* t3 = (TTree*)f1->Get("T_bad3");
-    TTree* t4 = (TTree*)f1->Get("T_bad4");
-    TTree* t5 = (TTree*)f1->Get("T_bad5");
-
+  if(std::string(intag).size()>0 &&
+     std::string(intag).find("tree:")==0){
+    std::string tree_name = std::string(intag).substr(5, std::string(intag).size());
+    TTree* treelist[6];
+    int ntree=0;
     TFile* fout = new TFile(outPath.c_str(), file_open_mode);
     TList *list = new TList;
-    int ntree = 0;
-    if(t0) {
-      list->Add(t0);
-      ntree++;
-    }
-    if(t1) {
-      list->Add(t1);
-      ntree++;
-    }
-    if(t2) {
-      list->Add(t2);
-      ntree++;
-    }
-    if(t3) {
-      list->Add(t3);
-      ntree++;
-    }
-    if(t4) {
-      list->Add(t4);
-      ntree++;
-    }
-    if(t5) {
-      list->Add(t5);
-      ntree++;
+    for(int i=0; i<6; i++){
+      std::string tree_name1 = tree_name + std::to_string(i);
+      treelist[i] = (TTree*)f1->Get(tree_name1.c_str());
+      if(treelist[i]){
+        ntree ++;
+        list->Add(treelist[i]);
+      }
     }
 
     if (ntree>0){
       fout->cd();
       TTree *newtree = TTree::MergeTrees(list);
-      std::cout << "\n No. of bad channels: "<< newtree->GetEntries() << "\n"; 
-      newtree->SetName("T_bad");
-      newtree->SetTitle("T_bad");
-      newtree->Write();      
+      std::cout << "\n No. of bad channel regions: "<< newtree->GetEntries() << "\n";
+      if(std::string(outtag)=="") outtag = tree_name.c_str();
+      newtree->SetName(outtag);
+      newtree->SetTitle(outtag);
+      newtree->Write();   
     }
     else {
       std::cout << "\n No. of bad channels: 0 \n";
