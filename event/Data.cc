@@ -157,7 +157,7 @@ void Data::load_waveform(const char* name, const char* title, double scale, doub
         cout << msg << endl;
     	// throw runtime_error(msg.c_str());
         int nChannels = 2400;
-        int nTDCs = 9594;
+        int nTDCs = 6000;
         int firstChannel = 0;
         if (msg.Contains("hv")) {
             firstChannel = 2400;
@@ -184,7 +184,7 @@ void Data::load_rawwaveform(const char* name, const char* baseline_name)
         cout << msg << endl;
         // throw runtime_error(msg.c_str());
         int nChannels = 2400;
-        int nTDCs = 9594;
+        int nTDCs = 6000;
         int firstChannel = 0;
         if (msg.Contains("hv")) {
             firstChannel = 2400;
