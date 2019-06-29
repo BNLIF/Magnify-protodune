@@ -45,4 +45,10 @@ cd scripts/
 root -l loadClasses.C Magnify.C
 ```
 
+### (Experimental feature) Channel Scan
+```
+./channelscan.sh path/to/rootfile
+```
+This is a wrapper for looping over channels where the channel list can be predefined in the `bad tree` or a text file. 
 
+See detailed usage via `./channelscan.sh -h`.
