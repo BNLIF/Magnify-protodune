@@ -89,8 +89,7 @@ void channelscan(
     //
     /////////////////////////////
 
-    execute(hin_orig, hout_orig, ich, "orig");
-    execute(hin_nf, hout_nf, ich, "nf");
+    execute(hin_orig, hin_nf, ich);
 
   }
 }
