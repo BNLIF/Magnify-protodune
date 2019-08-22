@@ -32,8 +32,6 @@ echo "tick: " $y1 $y2
 echo "rebin x: " $nx
 echo "rebin y: " $ny
 
-cd $magnify_source/test_feature/evd
-
 # input, output, x1, x2, y1, y2, x_rebin, y_rebin
 root -l -q -b preselect.C'("'"$rootfile"'","'"$outfile"'",'$x1','$x2','$y1','$y2','$nx','$ny')'
 

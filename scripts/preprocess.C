@@ -42,11 +42,11 @@ void MergeByTag(TFile* f1, TH2* hall, const char* tag="hu_orig", bool set_baseli
           int nX = h->GetNbinsX();
           int nY = h->GetNbinsY();
           for(int i=1; i<=nX; i++){
-            // cout << "channel " << i << endl;
+            // cout << "channel " << i-1 << endl;
             if(set_baseline) hbase->Reset();
-            int X = h->GetXaxis()->GetBinCenter(i);
+            double X = h->GetXaxis()->GetBinCenter(i);
             for(int j=1; j<=nY; j++){
-              int Y = h->GetYaxis()->GetBinCenter(j);
+              double Y = h->GetYaxis()->GetBinCenter(j);
               double content = h->GetBinContent(i,j);
               if(set_baseline) hbase->Fill(content);
               else{
@@ -56,10 +56,10 @@ void MergeByTag(TFile* f1, TH2* hall, const char* tag="hu_orig", bool set_baseli
             }
             if(set_baseline){
               float baseline = hbase->GetBinCenter(hbase->GetMaximumBin());
-              // cout << "channel " << i << " baseline= " << baseline << endl;
+              // cout << "channel " << i-1 << " baseline= " << baseline << endl;
               for(int j=1; j<=nY; j++){
                 // cout << "tick= " << j << endl;
-                int Y = h->GetYaxis()->GetBinCenter(j);
+                double Y = h->GetYaxis()->GetBinCenter(j);
                 double content = h->GetBinContent(i,j);
                 int bin1 = hall->FindBin(X,Y);
                 hall->SetBinContent(bin1, content - baseline);             
@@ -85,7 +85,7 @@ void Merge1DByTag(TFile* f1, TH1* hall, const char* tag="hu_threshold"){
         if(hname.Contains(tag)){
           int nX = h->GetNbinsX();
           for(int i=1; i<=nX; i++){
-              int X = h->GetXaxis()->GetBinCenter(i);
+              double X = h->GetXaxis()->GetBinCenter(i);
               double content = h->GetBinContent(i);
               int bin1 = hall->FindBin(X);
               hall->SetBinContent(bin1, h->GetBinContent(i));
