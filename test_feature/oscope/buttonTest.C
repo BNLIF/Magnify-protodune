@@ -190,6 +190,21 @@ const char* plane_label(int id){
   else return "w";
 }
 
+void fill_channel(TH2F* hin, TH1F* hout, int ch)
+{
+   if (!hin) return;
+   // double offset = 0;
+   // std:string hname(hout->GetName());
+   // if (hname=="h_troi") offset = -20 / 0.005;
+   // cout << hname << " " << offset << endl;
+
+   int nticks = hout->GetNbinsX();
+   int chbin = hin->GetXaxis()->FindBin(ch);
+   for (int i=0; i<nticks; i++){
+      hout->SetBinContent(i+1, hin->GetBinContent(chbin, i+1));
+   }
+}
+
 //______________________________________________________________________________
 void ButtonWindow::init()
 {
@@ -202,14 +217,13 @@ void ButtonWindow::init()
    const char* raw_tag = Form("h%s_raw%d",label,anodeid);
    const char* wiener_tag = Form("h%s_wiener%d",label,anodeid);
    const char* gauss_tag = Form("h%s_gauss%d",label,anodeid);
-   const char* troi_tag = Form("h%s_troi%d",label,anodeid); // tight roi
-   const char* lroi_tag = Form("h%s_lroi%d",label,anodeid); // loose roi
-   const char* croi_tag = Form("h%s_croi%d",label,anodeid);
-   const char* broi1_tag = Form("h%s_broi1st%d",label,anodeid);
-   const char* broi2_tag = Form("h%s_broi2nd%d",label,anodeid);
-   const char* sroi_tag = Form("h%s_sroi%d",label,anodeid);
-   const char* eroi_tag = Form("h%s_eroi%d",label,anodeid);
-
+   const char* troi_tag = Form("h%s_tight_lf%d",label,anodeid); // tight roi
+   const char* lroi_tag = Form("h%s_loose_lf%d",label,anodeid); // loose roi
+   const char* croi_tag = Form("h%s_cleanup_roi%d",label,anodeid);
+   const char* broi1_tag = Form("h%s_break_roi_1st%d",label,anodeid);
+   const char* broi2_tag = Form("h%s_break_roi_2nd%d",label,anodeid);
+   const char* sroi_tag = Form("h%s_shrink_roi%d",label,anodeid);
+   const char* eroi_tag = Form("h%s_extend_roi%d",label,anodeid);
 
    // auto file = TFile::Open("/home/wgu/Magnify-protodune/data/gallery/protodune-data-check.root");
    TH2F* h2_orig = (TH2F*)m_file->Get(orig_tag);
@@ -237,26 +251,18 @@ void ButtonWindow::init()
    m_sroi = new TH1F("h_sroi","",nticks,0,nticks);
    m_eroi = new TH1F("h_eroi","",nticks,0,nticks);
 
-   int ch_offset =  anodeid*2560 + (wpid==1)*800 + (wpid==2)*1600;
-   int chbin = h2_gauss->GetXaxis()->FindBin(ch);
-   cout << "chbin: " << chbin << endl;
+   fill_channel(h2_orig, m_orig, ch);
+   fill_channel(h2_raw, m_raw, ch);
+   fill_channel(h2_wiener, m_wiener, ch);
+   fill_channel(h2_gauss, m_gauss, ch);
+   fill_channel(h2_troi, m_troi, ch);
+   fill_channel(h2_lroi, m_lroi, ch);
+   fill_channel(h2_croi, m_croi, ch);
+   fill_channel(h2_broi1, m_broi1, ch);
+   fill_channel(h2_broi2, m_broi2, ch);
+   fill_channel(h2_sroi, m_sroi, ch);
+   fill_channel(h2_eroi, m_eroi, ch);
 
-   // chbin = ch+1-ch_offset;
-
-   cout << "ch+1-ch_offset: " << ch+1-ch_offset << " chbin: " << chbin << endl;
-   for (int i=0; i<nticks; i++){
-     m_orig->SetBinContent(i+1, h2_orig->GetBinContent(chbin, i+1));
-     m_raw->SetBinContent(i+1, h2_raw->GetBinContent(chbin, i+1));
-     m_wiener->SetBinContent(i+1, h2_wiener->GetBinContent(chbin, i+1));
-     m_gauss->SetBinContent(i+1, h2_gauss->GetBinContent(chbin, i+1));
-     if(h2_troi) m_troi->SetBinContent(i+1, h2_troi->GetBinContent(chbin, i+1));
-     if(h2_lroi) m_lroi->SetBinContent(i+1, h2_lroi->GetBinContent(chbin, i+1));
-     if(h2_croi) m_croi->SetBinContent(i+1, h2_croi->GetBinContent(chbin, i+1));
-     if(h2_broi1) m_broi1->SetBinContent(i+1, h2_broi1->GetBinContent(chbin, i+1));
-     if(h2_broi2) m_broi2->SetBinContent(i+1, h2_broi2->GetBinContent(chbin, i+1));
-     if(h2_sroi) m_sroi->SetBinContent(i+1, h2_sroi->GetBinContent(chbin, i+1));
-     if(h2_eroi) m_eroi->SetBinContent(i+1, h2_eroi->GetBinContent(chbin, i+1));
-   }
    m_orig->SetLineColor(1);
    m_raw->SetLineColor(4);
    m_wiener->SetLineColor(2);
