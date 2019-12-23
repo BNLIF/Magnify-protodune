@@ -201,7 +201,8 @@ void fill_channel(TH2F* hin, TH1F* hout, int ch)
    int nticks = hout->GetNbinsX();
    int chbin = hin->GetXaxis()->FindBin(ch);
    for (int i=0; i<nticks; i++){
-      hout->SetBinContent(i+1, hin->GetBinContent(chbin, i+1));
+      int tbin = hin->GetYaxis()->FindBin(i);
+      hout->SetBinContent(i+1, hin->GetBinContent(chbin, tbin));
    }
 }
 
